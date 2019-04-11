@@ -2,7 +2,35 @@ layui.define(['table', 'form'], function(exports){
     var table = layui.table
         ,form = layui.form;
 
+<<<<<<< HEAD
     /*待完成：下拉框未初始化值  工序机型联动*/
+=======
+    initGX();
+    initJX();
+    function initGX() {
+        $.ajax({
+            url: layui.setter.host + 'common/findAllGX',
+            type: 'get',
+            success: function (data) {
+                initDownList(data, "gongxu", null, 'name', 'id', true);
+                form.render();
+            }
+        });
+    }
+    function initJX(){
+        $.ajax({
+            url: layui.setter.host + 'common/findAllJX',
+            type: 'get',
+            data:{
+                gongxu:$('#gongxu').val()
+            },
+            success: function (data) {
+                initDownList(data, 'jixing', null, 'name', 'id', true);
+                form.render();
+            }
+        });
+    }
+>>>>>>> ba2d27bf4c40041179376b546345f6e86e6ead6c
 
     var cols =  [
         {field: 'id', title: 'id',hide:true}
@@ -17,8 +45,18 @@ layui.define(['table', 'form'], function(exports){
         ,{align: 'center',title: '操作',toolbar: '#barDemo'}
     ];
     cols = fixedColumn(cols);
+<<<<<<< HEAD
     initTable_all("table", 'jichushuju/shebei/shebei/findAllSheBei', 'get',[cols], table,"form");
 
+=======
+
+    initTable_all("table", 'jichushuju/shebei/shebei/findAllSheBei', 'get',[cols], table,"form");
+
+    form.on('select(gongxu)', function(data) {
+        initJX();
+    });
+
+>>>>>>> ba2d27bf4c40041179376b546345f6e86e6ead6c
     table.on('tool(table)',function(obj){
         var data = obj.data;
         if(obj.event === 'edit'){
@@ -61,6 +99,20 @@ layui.define(['table', 'form'], function(exports){
         }
     });
 
+<<<<<<< HEAD
+=======
+    form.on('submit(form_search)',function(data){
+        var field = getParams("form");
+        table.reload('table',{where:field});
+        return false;
+    });
+
+
+    $('#searchBtn').on("click",function(){
+        table.reload("table");
+    });
+
+>>>>>>> ba2d27bf4c40041179376b546345f6e86e6ead6c
     //监听是否报警
     form.on('switch(switchjhtc)', function(data) {
         var id = (data.elem).id;

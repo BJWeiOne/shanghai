@@ -3,7 +3,38 @@ layui.define(['table', 'form'], function(exports){
         ,form = layui.form;
 
     /*待完成：下拉框未初始化值，工序机型联动，新增修改参数类别已存在的情况测试*/
+<<<<<<< HEAD
 
+=======
+    initGX("gongxu",null,true);
+    initJX("jixing",null,true);
+    function initGX(elemId,selectedId,isAll) {
+        $.ajax({
+            url: layui.setter.host + 'common/findAllGX',
+            type: 'get',
+            success: function (data) {
+                initDownList(data, elemId,selectedId, 'name', 'id', isAll);
+                form.render();
+            }
+        });
+    }
+    function initJX(elemId,selectedId,isAll){
+        $.ajax({
+            url: layui.setter.host + 'common/findAllJX',
+            type: 'get',
+            data:{
+                gongxu:$('#gongxu').val()
+            },
+            success: function (data) {
+                initDownList(data, elemId,selectedId, 'name', 'id', isAll);
+                form.render();
+            }
+        });
+    }
+    form.on('select(gongxu)', function(data) {
+        initJX("jixing",null,true);
+    });
+>>>>>>> ba2d27bf4c40041179376b546345f6e86e6ead6c
 
     var cols =  [[
         {field: 'id', title: 'id',hide:true}
@@ -18,8 +49,20 @@ layui.define(['table', 'form'], function(exports){
 
     table.on('tool(table)',function(obj){
         var data = obj.data;
+<<<<<<< HEAD
         if(obj.event === 'edit'){
 
+=======
+        var id = data.id;
+        if(obj.event === 'edit'){
+
+            initGX("edit_gongxu",data.gongxu.id,false);
+            initJX("edit_jixing",data.jixing.id,false);
+            form.on('select(edit_gongxu)', function(data) {
+                initJX("edit_jixing",null,false);
+            });
+
+>>>>>>> ba2d27bf4c40041179376b546345f6e86e6ead6c
             layer.open({
                 type: 1
                 ,title: '编辑参数类别'
@@ -44,16 +87,29 @@ layui.define(['table', 'form'], function(exports){
                                 var jixing = {id:$('#edit_jixing').val()};
                                 formData.gongxu=gongxu;
                                 formData.jixing=jixing;
+<<<<<<< HEAD
+=======
+                                formData.id = id;
+>>>>>>> ba2d27bf4c40041179376b546345f6e86e6ead6c
                                 $.ajax({
                                     url:layui.setter.host+'jichushuju/shebei/shebeiparamleibie/updParamLeiBie',
                                     type:'post',
                                     contentType:"application/json;charset=utf-8",
                                     data:JSON.stringify(formData),
                                     success:function(data){
+<<<<<<< HEAD
                                         ajaxSuccess(data,table);
                                         if(data.code==666){
                                             layer.close(i);
                                         }else{
+=======
+                                        if(data.code==666){
+                                            layer.open({
+                                                title:"消息提醒",content:data.message,skin:"layui-layer-molv",offset: 'auto',time:3000,btn:[],shade: 0,anim: -1,icon:5
+                                            });
+                                        }else{
+                                            ajaxSuccess(data,table);
+>>>>>>> ba2d27bf4c40041179376b546345f6e86e6ead6c
                                             layer.close(i);layer.close(index);
                                         }
                                     }
@@ -73,6 +129,15 @@ layui.define(['table', 'form'], function(exports){
 
     $('#add_btn').on('click',function(){
         $('#add_name').val("");
+<<<<<<< HEAD
+=======
+        initGX("add_gongxu",null,false);
+        initJX("add_jixing",null,false);
+        form.on('select(add_gongxu)', function(data) {
+            initJX("add_jixing",null,false);
+        });
+
+>>>>>>> ba2d27bf4c40041179376b546345f6e86e6ead6c
         layer.open({
             type: 1,
             title: ['新增参数类别', 'font-size:12px;'],
@@ -107,10 +172,19 @@ layui.define(['table', 'form'], function(exports){
                                 contentType:"application/json;charset=utf-8",
                                 data:JSON.stringify(formData),
                                 success:function(data){
+<<<<<<< HEAD
                                     ajaxSuccess(data,table);
                                     if(data.code==666){
                                         layer.close(i);
                                     }else{
+=======
+                                    if(data.code==666){
+                                        layer.open({
+                                            title:"消息提醒",content:data.message,skin:"layui-layer-molv",offset: 'auto',time:3000,btn:[],shade: 0,anim: -1,icon:5
+                                        });
+                                    }else{
+                                        ajaxSuccess(data,table);
+>>>>>>> ba2d27bf4c40041179376b546345f6e86e6ead6c
                                         layer.close(i);layer.close(index);
                                     }
                                 }
@@ -122,6 +196,7 @@ layui.define(['table', 'form'], function(exports){
         });
     });
 
+<<<<<<< HEAD
     /**
      * 2019/03/22 bjw
      * 通过三目运算符处理NULL异常
@@ -146,5 +221,7 @@ layui.define(['table', 'form'], function(exports){
         return tem;
     }
 
+=======
+>>>>>>> ba2d27bf4c40041179376b546345f6e86e6ead6c
     exports('shebeiparamtype', {})
 });
