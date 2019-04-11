@@ -5,6 +5,7 @@ import com.tianqiauto.textile.weaving.model.base.Dict;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -51,21 +52,13 @@ public class YuanSha_ChuKu {
 
     @ManyToOne
     @JoinColumn(name = "chukuleixing_id")
-    private Dict chukuleixing; //出库类型
+    private Dict chukuleixing; //出库类型 车间领用/出售
 
     private Integer baoshu; //包数
 
     private Double baozhong; //包重
 
     private Double zongzhong; //总重量
-
-
-    private String yongtu;   //用途 经纱、纬纱
-
-
-
-
-
 
     private String beizhu; //备注
 
@@ -77,5 +70,13 @@ public class YuanSha_ChuKu {
     private Date lastModifyTime;
     private String lastModifyRen;
 
+    //查询使用条件
+    @Transient
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date kaishiriqi;//开始日期
+
+    @Transient
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date jieshuriqi;//结束日期
 
 }

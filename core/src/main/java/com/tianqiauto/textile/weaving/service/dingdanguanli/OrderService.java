@@ -11,6 +11,7 @@ import com.tianqiauto.textile.weaving.repository.OrderRepository;
 import com.tianqiauto.textile.weaving.repository.UserRepository;
 import com.tianqiauto.textile.weaving.util.JPASql.Container;
 import com.tianqiauto.textile.weaving.util.JPASql.DynamicUpdateSQL;
+import com.tianqiauto.textile.weaving.util.ModelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -76,10 +77,11 @@ public class OrderService {
 
     public Page<Order> findAll(Order order,Pageable pageable){
 
+        ModelUtil mu = new ModelUtil(order);
         Specification<Order> specification = (root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList();
             //开始日期和结束日期
-            if(!StringUtils.isEmpty(order.getXiadankaishiriqi()) || !StringUtils.isEmpty(order.getXiadanjieshuriqi())) {
+            if(!mu.paramIsEmpty("xiadankaishiriqi") || !mu.paramIsEmpty("xiadanjieshuriqi")) {
                 predicates.add(criteriaBuilder.between(root.get("xiadanriqi"), order.getXiadankaishiriqi(),order.getXiadanjieshuriqi()));
             }
             //订单号
@@ -87,7 +89,7 @@ public class OrderService {
                 predicates.add(criteriaBuilder.like(root.get("dingdanhao"), "%" + order.getDingdanhao() + "%"));
             }
             //订单状态
-            if(!StringUtils.isEmpty(order.getStatus())) {
+            if(!mu.paramIsEmpty("status.value")) {
                 predicates.add(criteriaBuilder.equal(root.get("status").get("value"), order.getStatus().getValue()));
             }
             //要求交货日期
@@ -95,7 +97,7 @@ public class OrderService {
                 predicates.add(criteriaBuilder.like(root.get("jiaohuoriqi"), "%" + order.getJiaohuoriqi() + "%"));
             }
             //客户信息
-            if(!StringUtils.isEmpty(order.getKehuxinxi())) {
+            if(!mu.paramIsEmpty("kehuxinxi.value")) {
                 predicates.add(criteriaBuilder.equal(root.get("kehuxinxi").get("value"),order.getKehuxinxi().getId()));
             }
             return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
