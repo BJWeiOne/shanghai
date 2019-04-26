@@ -55,8 +55,10 @@ public class PCN031Thread extends AbstractAnalysis {
         ParamVo.addParam(sourceId, "picks_1000", String.valueOf(bitArray[2]), "006");
         if (bitArray[7] == 0) {//生产
             currentBuJi.setQitingzhuangtai(Cache.yunxing);
+            currentBuJi.setYunxingzhuangtai(Cache.yunxing);
         } else {
             currentBuJi.setQitingzhuangtai(Cache.tingzhi);
+            currentBuJi.setYunxingzhuangtai(Cache.tingzhi);
         }
 
 
