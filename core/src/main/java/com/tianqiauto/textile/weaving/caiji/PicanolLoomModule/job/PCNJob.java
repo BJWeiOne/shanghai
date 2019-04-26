@@ -38,7 +38,7 @@ public class PCNJob { //fixme 继承JOB
      * 读取打纬次数及布长
      * @Date 2019/3/11 8:51
      **/
-//    @Scheduled(cron="0 0/1 * * * ?")
+    @Scheduled(cron="0 0/1 * * * ?")
     private void run030(){
         run(pcn030Thread);
     }
@@ -48,7 +48,7 @@ public class PCNJob { //fixme 继承JOB
      * 读取最近6个班的数据
      * @Date 2019/3/11 8:51
      **/
-//    @Scheduled(cron="10 0/1 * * * ?")
+    @Scheduled(cron="10 0/1 * * * ?")
     private void run031(){
         run(pcn031Thread);
     }
@@ -58,7 +58,7 @@ public class PCNJob { //fixme 继承JOB
      * 请求获取机器速度
      * @Date 2019/3/11 8:51
      **/
-//    @Scheduled(cron="20 0/1 * * * ?")
+    @Scheduled(cron="20 0/1 * * * ?")
     private void run110(){
         run(pcn110Thread);
     }
@@ -68,7 +68,7 @@ public class PCNJob { //fixme 继承JOB
      * 请求获取打纬密度
      * @Date 2019/3/11 8:51
      **/
-//    @Scheduled(cron="30 0/1 * * * ?")
+    @Scheduled(cron="30 0/1 * * * ?")
     private void run130(){
         run(pcn130Thread);
     }

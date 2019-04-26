@@ -10,7 +10,7 @@ spring:
 #  BJW 2019-03-09
 Picanol:
   #是否启动必佳乐采集程序的服务  true是开启，false关闭,不设置默认是false关闭的
-  is-start-server : false
+  is-start-server : true
   #配置分发器需要分发controller的命名规范，* 代表请求头中的功能码。
   #例如：010代表运行状态报文，controller命名为PCN010Controller
   #分发器会自动找到分发的Controller层去执行
