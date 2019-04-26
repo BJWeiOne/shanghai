@@ -74,7 +74,7 @@ public class Client {
             res = bos.toByteArray();
             log.error("【IP："+ip+":"+port+"】"+pcn.getBody().getId()+"请求成功！");
         } catch (UnknownHostException e) {
-           log.error("主机连接异常：【IP："+ip+":"+port+"】"+e.getMessage());
+            log.error("主机连接异常：【IP："+ip+":"+port+"】"+e.getMessage());
         } catch (IOException e) {
             if(e.getMessage().indexOf("Connection timed out: connect") != -1){
                 log.error("【IP："+ip+":"+port+"】"+pcn.getBody().getId()+"链接超时！"+e.getMessage());

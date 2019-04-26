@@ -32,7 +32,7 @@ public class DataWriteBaseJob { //fixme 继承JOB
      * 每分钟的第0秒执行一次
      * 把缓存数据写入数据库中...
      **/
-    @Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 60000)
     private void run(){
         long start = System.currentTimeMillis();
         paramDao.batchUpdateParam(ParamVo.getCollection());
