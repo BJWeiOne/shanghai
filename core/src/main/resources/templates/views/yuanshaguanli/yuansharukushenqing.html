@@ -168,7 +168,16 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">来源<i class="layui-icon layui-icon-snowflake" style="font-size: 10px; color: red;"></i></label>
                         <div class="layui-input-inline">
-                            <select name="laiyuan.id"  id="laiyuan_add" lay-verify="required" >
+                            <select name="laiyuan.id"  id="laiyuan_add" lay-verify="required" lay-filter="laiyuan_add">
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- 合约号 === -->
+                    <div class="layui-inline layui-hide" id="heyuehaoAddDiv">
+                        <label class="layui-form-label">合约号</label>
+                        <div class="layui-input-inline">
+                            <select name="heyuehao.id"  id="heyuehao_add" >
                             </select>
                         </div>
                     </div>

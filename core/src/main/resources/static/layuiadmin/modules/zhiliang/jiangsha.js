@@ -55,8 +55,8 @@ layui.define(['table', 'form', 'laydate'], function(exports){
 
     var cols =  [
         {field: 'id', title: 'id',hide:true}
-        ,{title: '合约号',sort:true, templet: repNull('heyuehao.name'),fixed:true, width:100}
-        ,{title: '坯布规格',sort:true, templet: repNull('heyuehao.order.pibuguige'),fixed:true, width:170}
+        ,{title: '合约号',sort:true, templet: repNull('heyuehao.name'),fixed:true, width:100, field:'heyuehao.name'}
+        ,{title: '坯布规格',sort:true, templet: repNull('heyuehao.order.pibuguige'),fixed:true, width:170, field:'heyuehao.order.pibuguige'}
         ,{field: 'ganghao',sort:true, title: '缸号',fixed:true, width:80}
         ,{field: 'niandumiao',sort:true, title: '粘度秒',width:100}
         ,{field: 'jiangtonghangulv',sort:true, title: '浆桶含固率',width:120}
@@ -93,7 +93,7 @@ layui.define(['table', 'form', 'laydate'], function(exports){
         getGangHao("add_ganghao", null, false, $('#add_heyuehao').val());
         layer.open({
             type: 1,
-            title: ['新增参数类别', 'font-size:12px;'],
+            title: ['新增浆纱质量', 'font-size:12px;'],
             content: $("#add_form_div"),
             shadeClose: true, //点击遮罩关闭层
             shade: 0.8,
@@ -147,7 +147,7 @@ layui.define(['table', 'form', 'laydate'], function(exports){
                             form.on('submit(form_edit_submit)', function (data) {
                                 var formData = data.field;
                                 formData.id = js_id;
-                                formData.heyuehao = {id:hyh_id}
+                                formData.heyuehao = {id:hyh_id};
                                 $.ajax({
                                     url:layui.setter.host+'zhiliang/jiangshazhiliang/updJiangShaZhiLiang',
                                     type:'post',

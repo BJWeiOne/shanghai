@@ -36,10 +36,8 @@ public class ZhiXing_Zhengjing {
     private JiHua_ZhengJing jiHua_zhengJing;
 
 
-
     //经轴下机详情表、织轴下机详情表
-
-    //    //整经下机相关动作：1。考虑跨班产量计算；2。整经计划状态发生改变；3。登记的经轴/织轴状态发生改变。4。如果浆纱计划不为空，浆纱计划状态需要发生改变
+    //整经下机相关动作：1。考虑跨班产量计算；2。整经计划状态发生改变；3。登记的经轴/织轴状态发生改变。4。如果浆纱计划不为空，浆纱计划状态需要发生改变
     @ManyToOne
     @JoinColumn(name = "jingzhou_id")
     private Beam_JingZhou jingzhou; //产出经轴信息

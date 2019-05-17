@@ -42,6 +42,12 @@ public class CurGongXuController {
         return curDataService.queryXxcsByJtid(jt_id);
     }
 
+    @GetMapping("queryXxcs_curBuji")
+    @ApiOperation(value = "根据机台id查询详细参数--从布机实时表中查询")
+    public Result queryXxcs_curBuji(String jt_id){
+        return curDataService.queryXxcs_curBuji(jt_id);
+    }
+
     @GetMapping("queryBjcsByJtid")
     @ApiOperation(value = "根据机台id查询报警参数")
     public Result queryBjcsByJtid(String jt_id){
@@ -85,6 +91,11 @@ public class CurGongXuController {
     }
 
 
+    @GetMapping("queryLsqx")
+    @ApiOperation(value = "根据参数id查询历史曲线")
+    public Result queryLsqx(Long param_id,Long jth_id){
+        return Result.ok("查询成功",curDataService.findLSQX(param_id,jth_id));
+    }
 
 }
 

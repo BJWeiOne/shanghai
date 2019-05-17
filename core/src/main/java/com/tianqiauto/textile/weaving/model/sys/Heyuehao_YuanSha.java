@@ -61,16 +61,16 @@ public class Heyuehao_YuanSha {
     @LastModifiedBy
     private String lastModifyRen;
 
-    @JsonIgnoreProperties("jingsha")
-    @ManyToMany
-    @JoinTable(name = "sys_heyuehao_yuansha_jingsha",joinColumns = @JoinColumn(name = "jingsha_id"),
-            inverseJoinColumns = @JoinColumn(name = "heyuehao_id"))
-    private Set<Heyuehao> jingsha; //经纱
-
-    @JsonIgnoreProperties("weisha")
-    @ManyToMany
-    @JoinTable(name = "sys_heyuehao_yuansha_weisha",joinColumns = @JoinColumn(name = "weisha_id"),
-            inverseJoinColumns = @JoinColumn(name = "heyuehao_id"))
-    private Set<Heyuehao> weisha; //纬纱
+//    @JsonIgnoreProperties("jingsha")
+//    @ManyToMany
+//    @JoinTable(name = "sys_heyuehao_yuansha_jingsha",joinColumns = @JoinColumn(name = "jingsha_id"),
+//            inverseJoinColumns = @JoinColumn(name = "heyuehao_id"))
+//    private Set<Heyuehao> jingsha; //经纱
+//
+//    @JsonIgnoreProperties("weisha")
+//    @ManyToMany
+//    @JoinTable(name = "sys_heyuehao_yuansha_weisha",joinColumns = @JoinColumn(name = "weisha_id"),
+//            inverseJoinColumns = @JoinColumn(name = "heyuehao_id"))
+//    private Set<Heyuehao> weisha; //纬纱
 
 }

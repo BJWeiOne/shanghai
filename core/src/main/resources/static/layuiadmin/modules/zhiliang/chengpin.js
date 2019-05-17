@@ -90,7 +90,9 @@ layui.define(['table', 'form', 'laydate'], function(exports){
             },
             async: false,
             success: function (data) {
-                var dict_data = {code:data.code,data:data.data.dicts,message:data.message};
+                var dicts = data.data.dicts;
+                dicts = dicts.sort(sortSort);
+                var dict_data = {code:data.code,data:dicts,message:data.message};
                 for(var i = 0;i<downId_arr.length;i++){
                     initDownList(dict_data, downId_arr[i], selectedId, 'name', 'id', isAll);
                 }
@@ -132,10 +134,10 @@ layui.define(['table', 'form', 'laydate'], function(exports){
     var cols =  [
         {field: 'id', title: 'id',hide:true}
         ,{field: 'riqi',sort:true, title: '日期',fixed:true, width:120}
-        ,{title: '班次',sort:true, templet: repNull('banci.name'),fixed:true, width:80}
-        ,{title: '合约号',sort:true, templet: repNull('heyuehao.name'),fixed:true, width:100}
-        ,{title: '坯布规格',sort:true, templet: repNull('heyuehao.order.pibuguige'),width:170}
-        ,{title: '机台号',sort:true, templet: repNull('jitaihao.jitaihao'),width:90}
+        ,{title: '班次',sort:true, templet: repNull('banci.name'),fixed:true, width:80, field:'banci.name'}
+        ,{title: '合约号',sort:true, templet: repNull('heyuehao.name'),fixed:true, width:100, field:'heyuehao.name'}
+        ,{title: '坯布规格',sort:true, templet: repNull('heyuehao.order.pibuguige'),width:170, field:'heyuehao.order.pibuguige'}
+        ,{title: '机台号',sort:true, templet: repNull('jitaihao.jitaihao'),width:90, field:'jitaihao.jitaihao'}
         ,{field: 'jingmi',sort:true, title: '经密',width:100}
         ,{field: 'weimi',sort:true, title: '纬密',width:100}
         ,{field: 'bufu',sort:true, title: '布幅/cm',width:100}
@@ -380,28 +382,6 @@ layui.define(['table', 'form', 'laydate'], function(exports){
         return cols;
     }
 
-
-    function encObject(obj) {
-        $.each(obj, function (key, val) {
-            val = !val ? "''" : "'"+val+"'";
-            var arr = key.split('.');
-            if (arr.length <= 1) {
-                return true;
-            }
-            var textObj = 'obj';
-            var currentObj = obj; //当前对象
-            for (var i = 0; i < arr.length; i++) {
-                if (i == arr.length - 1) {
-                    eval(textObj + "." + arr[i] + "=" + val);
-                } else {
-                    textObj += '.' + arr[i];
-                    if (currentObj[arr[i]] == undefined || null == currentObj[arr[i]]) {
-                        eval(textObj + '= {}');
-                    }
-                }
-            }
-        });
-    }
     function fromSetVel(from, formId, data) {
         var arrObj = $('#' + formId).find(":input[name *= '.']");
         for (var i = 0; i < arrObj.length; i++) {
@@ -417,6 +397,11 @@ layui.define(['table', 'form', 'laydate'], function(exports){
                 data[name] = currentObj;
         }
         form.val(formId, data);
+    }
+
+    //根据sort排序
+    function sortSort(a,b){
+        return a.sort-b.sort;
     }
 
     exports('chengpin', {})

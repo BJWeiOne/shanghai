@@ -1,7 +1,6 @@
 package com.tianqiauto.textile.weaving.util.JPASql;
 
 import com.tianqiauto.textile.weaving.model.base.User;
-import com.tianqiauto.textile.weaving.model.sys.Heyuehao;
 import com.tianqiauto.textile.weaving.model.sys.Order;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +8,9 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -142,7 +143,14 @@ public class DynamicUpdateSQL<T> {
         for (Param param : params) {
             if (null != param.getValue()) {
                 sbTemp.append(param.getName()).append("=?, ");
-                container.setParamList(param.getValue());
+
+                //日期转换
+                if(param.getValue() instanceof Date){
+                    String date = DateFormatToString(param.getValue());
+                    container.setParamList(date);
+                }else{
+                    container.setParamList(param.getValue());
+                }
             }
         }
         String temp = sbTemp.substring(0, sbTemp.length() - 2);
@@ -182,6 +190,11 @@ public class DynamicUpdateSQL<T> {
         private Object value;
     }
 
+    public String DateFormatToString(Object date){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(date);
+    }
+
     public static void main(String[] args) {
         Order order = new Order();
         order.setId(132L);
@@ -192,12 +205,16 @@ public class DynamicUpdateSQL<T> {
         user.setId(123L);
         order.setJingli(user);
 
+        Date date = new Date();
+        order.setJiaohuoriqi(date);
 
         Container RUSql2 = new DynamicUpdateSQL<>(order).getUpdateSql();
 //        return jdbcTemplate.update(RUSql2.getSql(),RUSql2.getParam());
         System.out.println(RUSql2.getSql());
-        System.out.println(RUSql2.getParam());
-
+        Object[] arry = RUSql2.getParam();
+        for (int i = 0; i < arry.length; i++) {
+            System.out.println(arry[i]);
+        }
     }
 
 }

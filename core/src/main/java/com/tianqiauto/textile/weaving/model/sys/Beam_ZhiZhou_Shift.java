@@ -3,6 +3,8 @@ package com.tianqiauto.textile.weaving.model.sys;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tianqiauto.textile.weaving.model.base.SheBei;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -22,11 +24,14 @@ import java.util.Date;
 @EqualsAndHashCode(exclude = {"zhizhou","heyuehao","jitaihao_zhengjing","jitaihao_jiangsha_shangche","jitaihao_chuanzong","jitaihao_buji"})
 @ToString(exclude = {"zhizhou","heyuehao","jitaihao_zhengjing","jitaihao_jiangsha_shangche","jitaihao_chuanzong","jitaihao_buji"})
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@EntityListeners(AuditingEntityListener.class)
 public class Beam_ZhiZhou_Shift {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+
 
 
     @ManyToOne
@@ -54,11 +59,14 @@ public class Beam_ZhiZhou_Shift {
 
     private Date jiangsha_time_shangche; //浆纱上机时间
 
+
     @ManyToOne
     @JoinColumn(name = "jth_jiangsha_xiache")
     private SheBei jitaihao_jiangsha_xiache;  //机台号
 
     private Date jiangsha_time_xiache; //浆纱下机时间
+
+    private String ganghao;  // 缸号
 
     @ManyToOne
     @JoinColumn(name = "jth_chuanzong")
@@ -82,7 +90,8 @@ public class Beam_ZhiZhou_Shift {
 
     private String beizhu;   //备注
 
-
+    @CreatedDate
+    private Date createTime;
 
 
 }

@@ -37,12 +37,12 @@ public class HeYueHaoController {
            order = orderService.findByid(id);
         }
         model.addAttribute("order", order);
-        return "/views/dingdanguanli/heyuehao";
+        return "views/dingdanguanli/heyuehao";
     }
 
     @RequestMapping("/heyuehao_page")
     public String heyuehao_page() {
-        return "/views/heyuehaoguanli/heyuehaoguanli";
+        return "views/heyuehaoguanli/heyuehaoguanli";
     }
 
     @PostMapping("findByOrderid")

@@ -22,8 +22,8 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "sys_current_buji")
-@EqualsAndHashCode(exclude = {"jitaihao","qitingzhuangtai","yunxingzhuangtai","heyuehao","dangchegong"})
-@ToString(exclude = {"jitaihao","qitingzhuangtai","yunxingzhuangtai","heyuehao","dangchegong"})
+@EqualsAndHashCode(exclude = {"jitaihao","qitingzhuangtai","yunxingzhuangtai","heyuehao","dangchegong","zhiZhou_left","zhiZhou_right"})
+@ToString(exclude = {"jitaihao","qitingzhuangtai","yunxingzhuangtai","heyuehao","dangchegong","zhiZhou_left","zhiZhou_right"})
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Current_BuJi {
 
@@ -79,20 +79,39 @@ public class Current_BuJi {
     private Integer shiwanweiweiting; //十万纬纬停次数   setter
 
 
-    private Double weimi; //纬密 根/inch
-
-    private Double suolv; //缩率
 
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User dangchegong;  //挡车工
+    private Double weimi; //纬密 根/inch
+
+    private Double suolv; //缩率
 
 
     private Double xiaolv;//当班效率   //结合当班运行时间，当班开始时间
 
+    @ManyToOne
+    @JoinColumn(name = "zhizhou_left_id")
+    private Beam_ZhiZhou zhiZhou_left;
+
+    @ManyToOne
+    @JoinColumn(name = "zhizhou_right_id")
+    private Beam_ZhiZhou zhiZhou_right;
+
 
     private Date lastModifyTime;
 
+   public double getLuobushijian(){
+       double shengyucahngdu = getShedingbuchang() - getBuchang();//剩余长度
+       return shengyucahngdu*100*getWeimi()/getChesu();
+   }
 
+   public double getDangbanbuchang(){
+       return getDaweicishu()/getWeimi()/100;
+   }
+
+   public double getShiwanweiweiting(){
+       return getZongting()/(getDaweicishu()/100000);
+   }
 }

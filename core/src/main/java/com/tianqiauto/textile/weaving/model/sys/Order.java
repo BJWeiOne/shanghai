@@ -8,6 +8,7 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -29,6 +30,7 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = {"heyuehaos","yingxiaoyuan","jingli","yuanliaoleixing","chengpinyongtu","kehuxinxi"})
 @ToString(exclude = {"heyuehaos","yingxiaoyuan","jingli","yuanliaoleixing","chengpinyongtu","kehuxinxi"})
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@EntityListeners(AuditingEntityListener.class)
 public class Order {
     /**
      * 新增合约号（新增、换经纱、换纬纱）

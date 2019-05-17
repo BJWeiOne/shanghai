@@ -98,11 +98,6 @@ public class GongYi {
     private Set<GongYi_ZhiZao> gongYi_zhiZaoSet;
 
 
-
-
-
-
-
     @CreatedDate
     private Date createDate;
     @CreatedBy

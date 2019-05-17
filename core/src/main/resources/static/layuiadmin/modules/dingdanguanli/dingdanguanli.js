@@ -11,9 +11,17 @@ layui.define(['table', 'laydate', 'form', 'upload'], function (exports) {
     dictInitSelect('status', null, 'dingdanzhuangtai', 'name', 'value');
     dictInitSelect('kehuxinxi', null, 'kehuxinxi', 'name', 'value');
     var date = new Date();
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+        month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
     laydate.render({
         elem: '#xiadankaishiriqi',
-        value: (date.getFullYear()-1)+'-'+(date.getMonth()+1)+'-'+date.getDate()
+        value: (date.getFullYear()-1)+'-'+month+'-'+strDate
     });
     laydate.render({
         elem: '#xiadanjieshuriqi',
@@ -28,15 +36,15 @@ layui.define(['table', 'laydate', 'form', 'upload'], function (exports) {
     var cols = [[
         {field: 'id', title: 'id', hide: true}
         /*, {field: 'createTime', title: '创建时间', width: 100}*/
-        , {field: 'dingdanhao', title: '订单号', width: 120, sort: true}
-        , {field: 'heyuehaoStr', title: '合约号', width: 120}
+        , {field: 'dingdanhao', title: '订单号', width: 120, sort: true, fixed:true}
+        , {field: 'heyuehaoStr', title: '合约号', width: 120, fixed:true}
         , {field: 'status.name',title: '订单状态', width: 120, templet: repNull('status.name'), sort: true}
-        , {field: 'pibuguige', title: '坯布规格', width: 120}
-        , {field: 'rukuguige', title: '入库规格', width: 120}
-        , {field: 'gongzhiguige', title: '公制规格', width: 120}
+        , {field: 'pibuguige', title: '坯布规格', width: 220}
+        , {field: 'rukuguige', title: '入库规格', width: 220}
+        , {field: 'gongzhiguige', title: '公制规格', width: 220}
         , {field: 'xiadanriqi', title: '下单日期', width: 120, sort: true}
         , {field: 'jiaohuoriqi', title: '交货日期', width: 120, sort: true}
-        , {field: 'xiadanshuliang', title: '下单数量', width: 120, sort: true}
+        , {field: 'xiadanshuliang', title: '下单数量(米)', width: 140, sort: true}
         , {field: 'baozhuangyaoqiu', title: '包装要求', width: 120}
         , {field: 'baozhuangmaitou', title: '包装唛头', width: 120}
         , {field: 'jingbaimiyongsha', title: '经百米用纱量', width: 120}
@@ -114,6 +122,7 @@ layui.define(['table', 'laydate', 'form', 'upload'], function (exports) {
                             , function (i) {
                                 var formData = data.field;
                                 encObject(formData);
+                       console.log(formData)
                                 $.ajax({
                                     url: layui.setter.host + 'dingdanguanli/dingdanguanli/updateOrder',
                                     contentType: "application/json;charset=utf-8",

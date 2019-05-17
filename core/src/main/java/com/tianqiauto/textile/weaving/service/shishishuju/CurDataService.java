@@ -1,6 +1,8 @@
 package com.tianqiauto.textile.weaving.service.shishishuju;
 
 
+import com.tianqiauto.textile.weaving.model.sys.History_Param;
+import com.tianqiauto.textile.weaving.repository.HistoryParamRepository;
 import com.tianqiauto.textile.weaving.util.procedure.core.ProcedureParamUtlis;
 import com.tianqiauto.textile.weaving.util.procedure.model.ProcedureContext;
 import com.tianqiauto.textile.weaving.util.procedure.service.BaseService;
@@ -21,6 +23,9 @@ public class CurDataService {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    HistoryParamRepository historyParamRepository;
 
     //原纱实时库存
     public Result cur_yuansha_kucun(String pihao, String pinming, String zhishu){
@@ -141,6 +146,14 @@ public class CurDataService {
         return Result.ok("查询成功",list);
     }
 
+    //查询详细参数--从布机实时表中查询
+    public Result queryXxcs_curBuji(String jt_id){
+        ProcedureParamUtlis ppu=new ProcedureParamUtlis();
+        ppu.addInInteger(jt_id);
+        ProcedureContext pro=baseService.callProcedure("pc_cur_bujicanshu", ppu.getList());
+        return Result.ok(pro.getDatas());
+    }
+
     //查询报警参数
     public Result queryBjcsByJtid(String jt_id){
         String sql = "select a.value,a.jitai_id,a.param_id,b.danwei,b.name,b.xuhao,b.leibie_id,b.leibie_name,b.lbxh from sys_current as a join " +
@@ -202,5 +215,9 @@ public class CurDataService {
         return Result.ok("查询成功",proc.getDatas());
     }
 
+    //历史曲线查询
+    public List<History_Param> findLSQX(Long param_id,Long jth_id){
+       return historyParamRepository.findByParam(param_id,jth_id);
+    }
 
 }

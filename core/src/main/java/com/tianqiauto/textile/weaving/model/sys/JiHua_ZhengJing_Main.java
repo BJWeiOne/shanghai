@@ -2,13 +2,15 @@ package com.tianqiauto.textile.weaving.model.sys;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tianqiauto.textile.weaving.model.base.Dict;
-import com.tianqiauto.textile.weaving.model.base.SheBei;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @ClassName Order
@@ -22,9 +24,10 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "sys_jihua_zhengjing_main")
-@EqualsAndHashCode(exclude = {"jiHua_jiangSha_main","banci","heyuehao","status"})
-@ToString(exclude = {"jiHua_jiangSha_main","banci","heyuehao","status"})
+@EqualsAndHashCode(exclude = {"jiHua_jiangSha_main","banci","heyuehao","status","jiHua_zhengJing_main","youxianji"})
+@ToString(exclude = {"jiHua_jiangSha_main","banci","heyuehao","status","jiHua_zhengJing_main","youxianji"})
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@EntityListeners(AuditingEntityListener.class)
 public class JiHua_ZhengJing_Main {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -68,7 +71,23 @@ public class JiHua_ZhengJing_Main {
     private Date lastModifyTime;
     private String lastModifyRen;
 
+    //查询使用条件
+    @Transient
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date kaishiriqi;//开始日期
 
+    @Transient
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date jieshuriqi;//结束日期
+
+    @JsonIgnoreProperties("jiHua_zhengJing_main")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "jiHua_zhengJing_main_id")
+    private List<JiHua_ZhengJing> jiHua_zhengJings; //合约号
+
+    @ManyToOne
+    @JoinColumn(name = "youxianji_id")
+    private Dict youxianji; //优先级
 
 
 }

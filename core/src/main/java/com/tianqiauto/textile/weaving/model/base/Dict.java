@@ -33,6 +33,10 @@ public class Dict {
     private Dict_Type dict_type;
 
 
+    @Transient
+    private Long dict_type_id;
+
+
     /**
      * 订单原料类型（原纱表来源字段同样使用）
      * 订单成品用途

@@ -1,12 +1,15 @@
 package com.tianqiauto.textile.weaving.service.yuanshaguanli;
 
 import com.tianqiauto.textile.weaving.model.base.Dict;
+import com.tianqiauto.textile.weaving.model.sys.Heyuehao;
 import com.tianqiauto.textile.weaving.model.sys.YuanSha;
 import com.tianqiauto.textile.weaving.model.sys.YuanSha_RuKu;
 import com.tianqiauto.textile.weaving.model.sys.YuanSha_RuKu_Shenqing;
+import com.tianqiauto.textile.weaving.repository.HeYueHaoRepository;
 import com.tianqiauto.textile.weaving.repository.YuanShaRepository;
 import com.tianqiauto.textile.weaving.repository.YuanShaRuKuRepository;
 import com.tianqiauto.textile.weaving.repository.YuanShaRuKuShenQingRepository;
+import com.tianqiauto.textile.weaving.repository.dao.DictDao;
 import com.tianqiauto.textile.weaving.util.model.ModelUtil;
 import com.tianqiauto.textile.weaving.util.copy.MyCopyProperties;
 import org.assertj.core.util.Lists;
@@ -81,9 +84,22 @@ public class YuansharukushenqingServer {
         return yuanShaRuKuShenQingRepository.findAll(specification,pageable);
     }
 
+    @Autowired
+    private DictDao dictDao;
+
+    @Autowired
+    private HeYueHaoRepository heYueHaoRepository;
+
     public YuanSha_RuKu_Shenqing save(YuanSha_RuKu_Shenqing yuanSha_ruKu_shenqing) {
-        Dict status = new Dict();
-        status.setId(22L);
+
+        Heyuehao heyuehao = yuanSha_ruKu_shenqing.getHeyuehao();
+        if(null != heyuehao && heyuehao.getId() != null){
+            heyuehao = heYueHaoRepository.findById(heyuehao.getId()).get();
+        }else{
+            heyuehao = null;
+        }
+        yuanSha_ruKu_shenqing.setHeyuehao(heyuehao);
+        Dict status = dictDao.findByTypecodeAndValue("ys_rukushenqingzhuangtai","10");
         yuanSha_ruKu_shenqing.setStatus(status);
         YuanSha yuanSha = yuanSha_ruKu_shenqing.getYuanSha();
         YuanSha yuanshaDB = yuanShaRepository.findByPihao(yuanSha.getPihao());

@@ -57,6 +57,7 @@ layui.define(['table', 'laydate', 'form', 'upload'], function (exports) {
     //初始化表格
     initTable("table", 'yuanshaguanli/yuansharukushenqing/query_page', 'get', cols, table,"from");
 
+
     //添加
     $("#add").click(function () {
         var initsele = [
@@ -67,6 +68,10 @@ layui.define(['table', 'laydate', 'form', 'upload'], function (exports) {
         dictInitSele(initsele,false);
         create_pihao();
         form.render();
+
+        var heyuehaoSO = initSelectObj('heyuehao_add', 'dingdanguanli/heyuehaoguanli/findAll','name','id');
+        InitSelect(heyuehaoSO,form);
+
         layer.open({
             type: 1
             , title: '原纱购入登记！'
@@ -85,6 +90,7 @@ layui.define(['table', 'laydate', 'form', 'upload'], function (exports) {
                         success: function (data) {
                             ajaxSuccess(data, table);
                             layer.close(index);
+                            $('#form_add')[0].reset();
                         }
                     });
                 });
@@ -94,6 +100,15 @@ layui.define(['table', 'laydate', 'form', 'upload'], function (exports) {
                 laydate.render({
                     elem: '#goururiqi_add',
                     value: new Date()
+                });
+                //查询条件下拉框监听
+                form.on('select(laiyuan_add)', function() {
+                    var laiyuan = $(this).text();
+                    if(laiyuan === "车间退库"){
+                        $("#heyuehaoAddDiv").removeClass("layui-hide");
+                    }else{
+                        $("#heyuehaoAddDiv").addClass("layui-hide");
+                    }
                 });
             }
         });

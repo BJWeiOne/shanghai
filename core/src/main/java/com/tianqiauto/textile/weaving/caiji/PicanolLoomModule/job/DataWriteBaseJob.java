@@ -5,11 +5,9 @@ import com.tianqiauto.textile.weaving.caiji.PicanolLoomModule.bean.PicanolHost;
 import com.tianqiauto.textile.weaving.caiji.PicanolLoomModule.dao.ParamDao;
 import com.tianqiauto.textile.weaving.caiji.PicanolLoomModule.utils.Cache;
 import com.tianqiauto.textile.weaving.model.sys.Current_BuJi;
-import com.tianqiauto.textile.weaving.repository.CurrentBujiRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -27,9 +25,6 @@ public class DataWriteBaseJob { //fixme 继承JOB
 
     @Autowired
     private ParamDao paramDao;
-
-    @Autowired
-    private CurrentBujiRepository currentBujiRepository;
 
     /**
      * 每分钟的第0秒执行一次
@@ -49,7 +44,7 @@ public class DataWriteBaseJob { //fixme 继承JOB
                 cbjs.add(bj);
             }
         }
-        currentBujiRepository.saveAll(cbjs);
+        paramDao.saveAll_Current_BuJi(cbjs);//插入current_buji表中
         long end = System.currentTimeMillis();
         log.info("数据存入数据库共耗时："+(end-start)+"毫秒！");
     }

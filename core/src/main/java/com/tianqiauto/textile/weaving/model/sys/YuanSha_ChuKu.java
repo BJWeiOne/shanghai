@@ -6,6 +6,7 @@ import com.tianqiauto.textile.weaving.model.base.User;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -27,7 +28,7 @@ import java.util.Date;
 @Entity(name = "sys_yuansha_chuku")
 
 //之所以这个表有冗余字段，是为了保证既可以走申请流程，也可以直接进行出库
-
+@EntityListeners(AuditingEntityListener.class)
 public class YuanSha_ChuKu {
 
     /**

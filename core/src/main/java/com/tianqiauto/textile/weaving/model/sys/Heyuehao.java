@@ -6,6 +6,7 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -26,6 +27,7 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = {"order","jingsha","weisha","gongYi"})
 @ToString(exclude = {"order","jingsha","weisha","gongYi"})
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@EntityListeners(AuditingEntityListener.class)
 public class Heyuehao {
     /**
      *
@@ -72,6 +74,9 @@ public class Heyuehao {
     @Column(precision = 18, scale = 4)
     private BigDecimal zhisuo;//织缩
 
+    private Integer deleted; //用来区分是否完成。查询合约号的下拉列表中排除未完成的。 1是   0否
+
+    private Double suolv;
 
     @Column
     @CreatedDate

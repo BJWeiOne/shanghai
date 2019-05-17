@@ -84,9 +84,15 @@ public class OrderService {
         Specification<Order> specification = (root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList();
             //开始日期和结束日期
-            if(!StringUtils.isEmpty(order.getXiadankaishiriqi()) || !StringUtils.isEmpty(order.getXiadanjieshuriqi())) {
-                predicates.add(criteriaBuilder.between(root.get("jiaohuoriqi"), order.getXiadankaishiriqi(),order.getXiadanjieshuriqi()));
+            if(!StringUtils.isEmpty(order.getXiadankaishiriqi())){
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("jiaohuoriqi"),order.getXiadankaishiriqi()));
             }
+            if(!StringUtils.isEmpty(order.getXiadanjieshuriqi())){
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("jiaohuoriqi"),order.getXiadanjieshuriqi()));
+            }
+            /*if(!StringUtils.isEmpty(order.getXiadankaishiriqi()) && !StringUtils.isEmpty(order.getXiadanjieshuriqi())) {
+                predicates.add(criteriaBuilder.between(root.get("jiaohuoriqi"), order.getXiadankaishiriqi(),order.getXiadanjieshuriqi()));
+            }*/
             //订单号
             if(!StringUtils.isEmpty(order.getDingdanhao())) {
                 predicates.add(criteriaBuilder.like(root.get("dingdanhao"), "%" + order.getDingdanhao() + "%"));
@@ -107,6 +113,11 @@ public class OrderService {
 
     public int update(Order order) {
         Container RUSql = new DynamicUpdateSQL<>(order).getUpdateSql();
+        System.out.println(RUSql.getSql());
+        Object[] arry = RUSql.getParam();
+        for (int i = 0; i < arry.length; i++) {
+            System.out.println(arry[i]);
+        }
         return jdbcTemplate.update(RUSql.getSql(),RUSql.getParam());
     }
 

@@ -15,14 +15,37 @@ layui.define(function(exports){
   //公共业务的逻辑处理可以写在此处，切换任何页面都会执行
   //……
 
+    /**
+     * 涉及到开始日期班次，结束日期班次的筛选条件查询，封装成开始序号，结束序号
+     * 开始日期：name='kaishiriqi';  开始班次：name='kaishibanci'
+     * 结束日期：name='jieshuriqi';  结束班次：name='jieshubanci'
+     * 若开始班次为全部，处理成了早班value
+     * 若结束班次为全部，处理成了夜班value
+     * @param formId
+     * @returns {{}}
+     */
   getParams = function (formId) {
     var _params = {};
 
+    var kaishiriqi,kaishibanci,kaishixuhao,jieshuriqi,jieshubanci,jieshuxuhao;
+
     $.each($('#' + formId).serializeArray(), function (i, field) {
       if (null != field.value && "" != field.value) {
-      _params[field.name] = field.value;
+        _params[field.name] = field.value;
       }
+      if(field.name == "kaishiriqi") {kaishiriqi = field.value;}
+      if(field.name == "kaishibanci"){kaishibanci = (field.value == "" ? "10" : field.value);}
+      if(field.name == "jieshuriqi") {jieshuriqi = field.value;}
+      if(field.name == "jieshubanci"){jieshubanci = (field.value == "" ? "30" : field.value);}
     });
+    if(kaishiriqi != null && kaishiriqi != ""){
+        kaishixuhao = kaishiriqi.replace(/-/g,'')+kaishibanci;
+        _params.kaishixuhao = kaishixuhao;
+    }
+    if(jieshuriqi != null && jieshuriqi != ""){
+        jieshuxuhao = jieshuriqi.replace(/-/g,'')+jieshubanci;
+        _params.jieshuxuhao = jieshuxuhao;
+    }
     return _params;
   };
 
@@ -117,6 +140,7 @@ layui.define(function(exports){
       , cellMinWidth: 80
       , limit: 1000000
       , cols: cols
+      ,height:'full-180'
       ,where:getParams(formId)
       , done: function (res) {
         if (typeof(doneCallBack) === "function") {
@@ -383,6 +407,8 @@ layui.define(function(exports){
             html+='<option value= "" >全部</option>';
         }
         var dicts = data.data.dicts;
+        dicts = dicts.sort(sortSort);
+
         for(var i = 0;i<dicts.length;i++){
             if(param.defaultValue == dicts[i].value){
                 html+='<option selected value= "'+dicts[i].id+'" >'+dicts[i].name+'</option>';
@@ -392,6 +418,11 @@ layui.define(function(exports){
         }
         $("select[name='"+param.code+"']").append(html);
     };
+
+    //根据sort排序
+    function sortSort(a,b){
+        return a.sort-b.sort;
+    }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -558,9 +589,11 @@ layui.define(function(exports){
      * 2019/03/22 bjw
      * 通过三目运算符处理thymeleaf表达式中的内容有NULL异常
      * @param name 数据取值参数
+     * @param rep 为null时的替换值
      * @returns {string} 取值内容
      */
-    repNull = function(name) {
+    repNull = function(name,rep) {
+        var repStr = !rep  ?  '' : rep;
         var arr = name.split('.');
         var tem = "<div>{{ ";
         var currentObj = 'd';
@@ -568,7 +601,7 @@ layui.define(function(exports){
         for (var i = 0; i < arr.length; i++) {
             currentObj += '.' + arr[i];
             if (i == (arr.length - 1)) {
-                smbds += currentObj + "== null) ? '' : " + currentObj;
+                smbds += currentObj + "== null) ? '"+repStr+"' : " + currentObj;
             } else {
                 smbds += currentObj + "== null || ";
             }
@@ -616,7 +649,7 @@ layui.define(function(exports){
             },
             Tel: function (value, item) {
                 var sj = /^1[34578]\d{9}$/.test(value);
-                var dh = /^\d{3,4}-\d{7,8}$/.test(value)
+                var dh = /^\d{3,4}-\d{7,8}$/.test(value);
                 var jy = !(dh || sj);
                 if (jy) {
                     return "请输入正确的手机或电话号码！";
@@ -736,7 +769,7 @@ layui.define(function(exports){
                 }
             }
         });
-    }
+    };
 
     /**
      *  bjw 2019.03.30
@@ -785,7 +818,7 @@ layui.define(function(exports){
                 form.render();
             }
         });
-    }
+    };
 
 
     /**
@@ -809,7 +842,39 @@ layui.define(function(exports){
                 data[name] = currentObj;
         }
         from.val(formId, data);
-    }
+    };
+
+    /**
+     * 2019/04/25 lrj
+     * 传入工序名称 获取工序当前班次轮班
+     */
+    currentBanCiLunBan = function(name){
+        var obj;
+        $.ajax({
+            // jpa查询接口
+            // url: layui.setter.host + 'common/findCurrentBCLB',
+            //sql语句查询接口
+            url: layui.setter.host + 'common/findCurrentBCLB_NativeQuery',
+            type: 'GET',
+            async:false,
+            data:{
+                name:name
+            },
+            success: function (data) {
+                if(data.code==0){
+                    // jpa接口查询返回数据
+                    // obj =  data.data;
+
+                    // 原生sql查询返回数据
+                    if(data.data.length>0){
+                        obj = data.data[0];
+                    }
+                }
+            }
+        });
+        return obj;
+    };
+
 
     //对外暴露的接口
   exports('common', {});

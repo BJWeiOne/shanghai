@@ -19,12 +19,12 @@ import java.util.List;
 @Slf4j
 @Component
 @Order(value = 1)
-public class ApplicationStartListener implements CommandLineRunner {
+public class PicanolStartListener implements CommandLineRunner {
 
     @Autowired
     private Server server;
 
-    @Resource
+    @Autowired
     private PicanolHostRepository picanolHostRepository;
 
     @Value("${Picanol.is-start-server:false}")

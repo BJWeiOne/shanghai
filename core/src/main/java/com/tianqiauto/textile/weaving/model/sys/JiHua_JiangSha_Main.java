@@ -5,6 +5,7 @@ import com.tianqiauto.textile.weaving.model.base.Dict;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -25,6 +26,7 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = {"banci","heyuehao","status"})
 @ToString(exclude = {"banci","heyuehao","status"})
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@EntityListeners(AuditingEntityListener.class)
 public class JiHua_JiangSha_Main {
 
 
@@ -57,11 +59,6 @@ public class JiHua_JiangSha_Main {
     @ManyToOne
     @JoinColumn(name = "status_id")
     private Dict status;//状态
-
-
-
-
-
 
 
 

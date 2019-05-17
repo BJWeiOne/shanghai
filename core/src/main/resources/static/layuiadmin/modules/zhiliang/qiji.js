@@ -94,7 +94,9 @@ layui.define(['table', 'form', 'laydate'], function(exports){
             },
             async: false,
             success: function (data) {
-                var dict_data = {code:data.code,data:data.data.dicts,message:data.message};
+                var dicts = data.data.dicts;
+                dicts = dicts.sort(sortSort);
+                var dict_data = {code:data.code,data:dicts,message:data.message};
                 for(var i = 0;i<downId_arr.length;i++){
                     initDownList(dict_data, downId_arr[i], selectedId, 'name', 'id', isAll);
                 }
@@ -131,10 +133,10 @@ layui.define(['table', 'form', 'laydate'], function(exports){
     var cols =  [
         {field: 'id', title: 'id',hide:true}
         ,{field: 'riqi',sort:true, title: '日期',fixed:true, width:120}
-        ,{title: '班次',sort:true, templet: repNull('banci.name'),fixed:true, width:80}
-        ,{title: '机台号',sort:true, templet: repNull('jitaihao.jitaihao'),fixed:true,width:100}
-        ,{title: '合约号',sort:true, templet: repNull('heyuehao.name'), width:100}
-        ,{title: '坯布规格',sort:true, templet: repNull('heyuehao.order.pibuguige'),width:170}
+        ,{title: '班次',sort:true, templet: repNull('banci.name'),fixed:true, width:80 ,field:'banci.name'}
+        ,{title: '机台号',sort:true, templet: repNull('jitaihao.jitaihao'),fixed:true,width:100,field:'jitaihao.jitaihao'}
+        ,{title: '合约号',sort:true, templet: repNull('heyuehao.name'), width:100,field:'heyuehao.name'}
+        ,{title: '坯布规格',sort:true, templet: repNull('heyuehao.order.pibuguige'),width:170,field:'heyuehao.order.pibuguige'}
         ,{field: 'kouhao',sort:true, title: '筘号',width:100}
         ,{field: 'zongjing',sort:true, title: '总经',width:100}
         ,{field: 'jingmi',sort:true, title: '经密',width:100}
@@ -422,6 +424,11 @@ layui.define(['table', 'form', 'laydate'], function(exports){
                 data[name] = currentObj;
         }
         form.val(formId, data);
+    }
+
+    //根据sort排序
+    function sortSort(a,b){
+        return a.sort-b.sort;
     }
 
     exports('qiji', {})

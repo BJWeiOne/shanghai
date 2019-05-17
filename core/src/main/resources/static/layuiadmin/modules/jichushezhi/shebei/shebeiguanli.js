@@ -91,7 +91,7 @@ layui.define(['table', 'form'], function(exports){
     });
 
     form.on('submit(form_search)',function(data){
-        var field = getParams("form");
+        var field = data.field;
         table.reload('table',{where:field});
         return false;
     });

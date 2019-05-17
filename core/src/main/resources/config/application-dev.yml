@@ -1,10 +1,11 @@
 #数据库环境
 spring:
   datasource:
-    url: jdbc:sqlserver://101.200.165.61:1433;Database=sh_weaving
+    url: jdbc:sqlserver://101.200.165.61:49250;Database=sh_weaving
+#    url: jdbc:sqlserver://210.10.101.201:1433;Database=sh_weaving
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
     username: sa
-    password: zzictec
+    password: tianqi
 
 
 #  BJW 2019-03-09
@@ -19,3 +20,8 @@ Picanol:
   server-port : 8004
   #请求必佳乐织机获取参数，设置多少台车一个线程。 默认是10台车一个线程
   how-many-machines-a-thread : 10
+
+  # BJW 2019-05-15
+WenShiDu:
+  #是否启动温湿度集程序的服务  true是开启，false关闭,不设置默认是false关闭的
+  is-start : false

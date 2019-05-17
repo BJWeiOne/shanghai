@@ -57,9 +57,9 @@
 
 	<!--合约号对应原纱信息弹框-->
 	<div id="hyh_ys_tck" style="display: none;">
-		<label class="layui-form-label" style="color: #01AAED; width: auto;">经纱</label>
+		<label class="layui-form-label" style="color: #008B8B; width: auto; font-size: 20px">经纱</label>
 		<table class="layui-table" lay-filter="hyh_js_table" id="hyh_js_table"></table>
-		<label class="layui-form-label" style="color: #01AAED; width: auto;">纬纱</label>
+		<label class="layui-form-label" style="color: #008B8B; width: auto; font-size: 20px">纬纱</label>
 		<table class="layui-table" lay-filter="hyh_ws_table" id="hyh_ws_table"></table>
 	</div>
 
@@ -73,7 +73,11 @@
 		<div class="layui-tab-content">
 			<!--详细参数-->
 			<div class="layui-tab-item layui-show" id="xxcs_div">
-				<div class="show_xxcs" id="show_xxcs"></div>
+				<div class="show_xxcs" id="show_xxcs">
+					<!--table 放从sys_current_buji表中取的数据-->
+					<table class="layui-table" id="xxcs_table" lay-filter="xxcs_table">
+					</table>
+				</div>
 			</div>
 			<!--故障参数-->
 			<div class="layui-tab-item">
@@ -91,7 +95,7 @@
 	<div th:replace="common/links::js_footer"></div>
 	<script th:src="@{/js/echarts/echarts.min.js}"></script>
 	<script th:src="@{/js/echarts/TIS-echarts.js}"></script>
-	<script th:src="@{/layuiadmin/modules/shishishuju/windowpop.js}"></script>
+	<script th:src="@{/layuiadmin/modules/shishishuju/windowpop_new.js}"></script>
 
 	</body>
 
